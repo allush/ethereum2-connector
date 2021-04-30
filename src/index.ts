@@ -12,7 +12,7 @@ export class NoEthereumProviderError extends Error {
   public constructor() {
     super()
     this.name = this.constructor.name
-    this.message = 'No Ethereum provider was found on window.OneKey.'
+    this.message = 'No Ethereum provider was found on window.ethereum2.'
   }
 }
 
@@ -24,7 +24,7 @@ export class UserRejectedRequestError extends Error {
   }
 }
 
-export class OneKeyConnector extends AbstractConnector {
+export class ethereum2Connector extends AbstractConnector {
   constructor(kwargs: AbstractConnectorArguments) {
     super(kwargs)
 
@@ -38,7 +38,7 @@ export class OneKeyConnector extends AbstractConnector {
     if (__DEV__) {
       console.log("Handling 'chainChanged' event with payload", chainId)
     }
-    this.emitUpdate({ chainId, provider: window.OneKey })
+    this.emitUpdate({ chainId, provider: window.ethereum2 })
   }
 
   private handleAccountsChanged(accounts: string[]): void {
@@ -63,29 +63,29 @@ export class OneKeyConnector extends AbstractConnector {
     if (__DEV__) {
       console.log("Handling 'networkChanged' event with payload", networkId)
     }
-    this.emitUpdate({ chainId: networkId, provider: window.OneKey })
+    this.emitUpdate({ chainId: networkId, provider: window.ethereum2 })
   }
 
   public async activate(): Promise<ConnectorUpdate> {
-    if (!window.OneKey) {
+    if (!window.ethereum2) {
       throw new NoEthereumProviderError()
     }
 
-    if (window.OneKey.on) {
-      window.OneKey.on('chainChanged', this.handleChainChanged)
-      window.OneKey.on('accountsChanged', this.handleAccountsChanged)
-      window.OneKey.on('close', this.handleClose)
-      window.OneKey.on('networkChanged', this.handleNetworkChanged)
+    if (window.ethereum2.on) {
+      window.ethereum2.on('chainChanged', this.handleChainChanged)
+      window.ethereum2.on('accountsChanged', this.handleAccountsChanged)
+      window.ethereum2.on('close', this.handleClose)
+      window.ethereum2.on('networkChanged', this.handleNetworkChanged)
     }
 
-    if ((window.OneKey as any).isMetaMask) {
-      ;(window.OneKey as any).autoRefreshOnNetworkChange = false
+    if ((window.ethereum2 as any).isMetaMask) {
+      ;(window.ethereum2 as any).autoRefreshOnNetworkChange = false
     }
 
     // try to activate + get account via eth_requestAccounts
     let account
     try {
-      account = await (window.OneKey.send as Send)('eth_requestAccounts').then(
+      account = await (window.ethereum2.send as Send)('eth_requestAccounts').then(
         sendReturn => parseSendReturn(sendReturn)[0]
       )
     } catch (error) {
@@ -98,31 +98,31 @@ export class OneKeyConnector extends AbstractConnector {
     // if unsuccessful, try enable
     if (!account) {
       // if enable is successful but doesn't return accounts, fall back to getAccount (not happy i have to do this...)
-      account = await window.OneKey.enable().then(sendReturn => sendReturn && parseSendReturn(sendReturn)[0])
+      account = await window.ethereum2.enable().then(sendReturn => sendReturn && parseSendReturn(sendReturn)[0])
     }
 
-    return { provider: window.OneKey, ...(account ? { account } : {}) }
+    return { provider: window.ethereum2, ...(account ? { account } : {}) }
   }
 
   public async getProvider(): Promise<any> {
-    return window.OneKey
+    return window.ethereum2
   }
 
   public async getChainId(): Promise<number | string> {
-    if (!window.OneKey) {
+    if (!window.ethereum2) {
       throw new NoEthereumProviderError()
     }
 
     let chainId
     try {
-      chainId = await (window.OneKey.send as Send)('eth_chainId').then(parseSendReturn)
+      chainId = await (window.ethereum2.send as Send)('eth_chainId').then(parseSendReturn)
     } catch {
       warning(false, 'eth_chainId was unsuccessful, falling back to net_version')
     }
 
     if (!chainId) {
       try {
-        chainId = await (window.OneKey.send as Send)('net_version').then(parseSendReturn)
+        chainId = await (window.ethereum2.send as Send)('net_version').then(parseSendReturn)
       } catch {
         warning(false, 'net_version was unsuccessful, falling back to net version v2')
       }
@@ -130,21 +130,21 @@ export class OneKeyConnector extends AbstractConnector {
 
     if (!chainId) {
       try {
-        chainId = parseSendReturn((window.OneKey.send as SendOld)({ method: 'net_version' }))
+        chainId = parseSendReturn((window.ethereum2.send as SendOld)({ method: 'net_version' }))
       } catch {
         warning(false, 'net_version v2 was unsuccessful, falling back to manual matches and static properties')
       }
     }
 
     if (!chainId) {
-      if ((window.OneKey as any).isDapper) {
-        chainId = parseSendReturn((window.OneKey as any).cachedResults.net_version)
+      if ((window.ethereum2 as any).isDapper) {
+        chainId = parseSendReturn((window.ethereum2 as any).cachedResults.net_version)
       } else {
         chainId =
-          (window.OneKey as any).chainId ||
-          (window.OneKey as any).netVersion ||
-          (window.OneKey as any).networkVersion ||
-          (window.OneKey as any)._chainId
+          (window.ethereum2 as any).chainId ||
+          (window.ethereum2 as any).netVersion ||
+          (window.ethereum2 as any).networkVersion ||
+          (window.ethereum2 as any)._chainId
       }
     }
 
@@ -152,13 +152,13 @@ export class OneKeyConnector extends AbstractConnector {
   }
 
   public async getAccount(): Promise<null | string> {
-    if (!window.OneKey) {
+    if (!window.ethereum2) {
       throw new NoEthereumProviderError()
     }
 
     let account
     try {
-      account = await (window.OneKey.send as Send)('eth_accounts').then(
+      account = await (window.ethereum2.send as Send)('eth_accounts').then(
         sendReturn => parseSendReturn(sendReturn)[0]
       )
     } catch {
@@ -167,35 +167,35 @@ export class OneKeyConnector extends AbstractConnector {
 
     if (!account) {
       try {
-        account = await window.OneKey.enable().then(sendReturn => parseSendReturn(sendReturn)[0])
+        account = await window.ethereum2.enable().then(sendReturn => parseSendReturn(sendReturn)[0])
       } catch {
         warning(false, 'enable was unsuccessful, falling back to eth_accounts v2')
       }
     }
 
     if (!account) {
-      account = parseSendReturn((window.OneKey.send as SendOld)({ method: 'eth_accounts' }))[0]
+      account = parseSendReturn((window.ethereum2.send as SendOld)({ method: 'eth_accounts' }))[0]
     }
 
     return account
   }
 
   public deactivate() {
-    if (window.OneKey && window.OneKey.removeListener) {
-      window.OneKey.removeListener('chainChanged', this.handleChainChanged)
-      window.OneKey.removeListener('accountsChanged', this.handleAccountsChanged)
-      window.OneKey.removeListener('close', this.handleClose)
-      window.OneKey.removeListener('networkChanged', this.handleNetworkChanged)
+    if (window.ethereum2 && window.ethereum2.removeListener) {
+      window.ethereum2.removeListener('chainChanged', this.handleChainChanged)
+      window.ethereum2.removeListener('accountsChanged', this.handleAccountsChanged)
+      window.ethereum2.removeListener('close', this.handleClose)
+      window.ethereum2.removeListener('networkChanged', this.handleNetworkChanged)
     }
   }
 
   public async isAuthorized(): Promise<boolean> {
-    if (!window.OneKey) {
+    if (!window.ethereum2) {
       return false
     }
 
     try {
-      return await (window.OneKey.send as Send)('eth_accounts').then(sendReturn => {
+      return await (window.ethereum2.send as Send)('eth_accounts').then(sendReturn => {
         if (parseSendReturn(sendReturn).length > 0) {
           return true
         } else {

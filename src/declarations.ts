@@ -1,4 +1,4 @@
-interface OneKey {
+interface Ethereum2 {
   send: unknown
   enable: () => Promise<string[]>
   on?: (method: string, listener: (...args: any[]) => void) => void
@@ -6,7 +6,7 @@ interface OneKey {
 }
 
 declare interface Window {
-  OneKey?: OneKey
+  ethereum2?: Ethereum2
 }
 
 declare const __DEV__: boolean
