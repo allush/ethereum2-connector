@@ -1,9 +1,5 @@
-'use strict';
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var abstractConnector = require('@web3-react/abstract-connector');
-var warning = _interopDefault(require('tiny-warning'));
+import { AbstractConnector } from '@web3-react/abstract-connector';
+import warning from 'tiny-warning';
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -190,7 +186,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
   var _proto = Ethereum2Connector.prototype;
 
   _proto.handleChainChanged = function handleChainChanged(chainId) {
-    {
+    if (process.env.NODE_ENV !== "production") {
       console.log("Handling 'chainChanged' event with payload", chainId);
     }
 
@@ -201,7 +197,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
   };
 
   _proto.handleAccountsChanged = function handleAccountsChanged(accounts) {
-    {
+    if (process.env.NODE_ENV !== "production") {
       console.log("Handling 'accountsChanged' event with payload", accounts);
     }
 
@@ -215,7 +211,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
   };
 
   _proto.handleClose = function handleClose(code, reason) {
-    {
+    if (process.env.NODE_ENV !== "production") {
       console.log("Handling 'close' event with payload", code, reason);
     }
 
@@ -223,7 +219,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
   };
 
   _proto.handleNetworkChanged = function handleNetworkChanged(networkId) {
-    {
+    if (process.env.NODE_ENV !== "production") {
       console.log("Handling 'networkChanged' event with payload", networkId);
     }
 
@@ -295,7 +291,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
           throw new UserRejectedRequestError();
         }
 
-        "development" !== "production" ? warning(false, 'eth_requestAccounts was unsuccessful, falling back to enable') : void 0;
+        process.env.NODE_ENV !== "production" ? warning(false, 'eth_requestAccounts was unsuccessful, falling back to enable') : void 0;
       });
 
       return Promise.resolve(_temp6 && _temp6.then ? _temp6.then(_temp5) : _temp5(_temp6));
@@ -322,7 +318,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
                 method: 'net_version'
               }));
             } catch (_unused) {
-              "development" !== "production" ? warning(false, 'net_version v2 was unsuccessful, falling back to manual matches and static properties') : void 0;
+              process.env.NODE_ENV !== "production" ? warning(false, 'net_version v2 was unsuccessful, falling back to manual matches and static properties') : void 0;
             }
           }
 
@@ -344,7 +340,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
                 chainId = _window$ethereum2$sen3;
               });
             }, function () {
-              "development" !== "production" ? warning(false, 'net_version was unsuccessful, falling back to net version v2') : void 0;
+              process.env.NODE_ENV !== "production" ? warning(false, 'net_version was unsuccessful, falling back to net version v2') : void 0;
             });
 
             if (_temp12 && _temp12.then) return _temp12.then(function () {});
@@ -365,7 +361,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
           chainId = _window$ethereum2$sen2;
         });
       }, function () {
-        "development" !== "production" ? warning(false, 'eth_chainId was unsuccessful, falling back to net_version') : void 0;
+        process.env.NODE_ENV !== "production" ? warning(false, 'eth_chainId was unsuccessful, falling back to net_version') : void 0;
       });
 
       return Promise.resolve(_temp14 && _temp14.then ? _temp14.then(_temp13) : _temp13(_temp14));
@@ -396,7 +392,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
                 account = _window$ethereum2$ena2;
               });
             }, function () {
-              "development" !== "production" ? warning(false, 'enable was unsuccessful, falling back to eth_accounts v2') : void 0;
+              process.env.NODE_ENV !== "production" ? warning(false, 'enable was unsuccessful, falling back to eth_accounts v2') : void 0;
             });
 
             if (_temp20 && _temp20.then) return _temp20.then(function () {});
@@ -419,7 +415,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
           account = _window$ethereum2$sen4;
         });
       }, function () {
-        "development" !== "production" ? warning(false, 'eth_accounts was unsuccessful, falling back to enable') : void 0;
+        process.env.NODE_ENV !== "production" ? warning(false, 'eth_accounts was unsuccessful, falling back to enable') : void 0;
       });
 
       return Promise.resolve(_temp22 && _temp22.then ? _temp22.then(_temp21) : _temp21(_temp22));
@@ -460,9 +456,7 @@ var Ethereum2Connector = /*#__PURE__*/function (_AbstractConnector) {
   };
 
   return Ethereum2Connector;
-}(abstractConnector.AbstractConnector);
+}(AbstractConnector);
 
-exports.Ethereum2Connector = Ethereum2Connector;
-exports.NoEthereumProviderError = NoEthereumProviderError;
-exports.UserRejectedRequestError = UserRejectedRequestError;
-//# sourceMappingURL=onekey-connector.cjs.development.js.map
+export { Ethereum2Connector, NoEthereumProviderError, UserRejectedRequestError };
+//# sourceMappingURL=ethereum2-connector.esm.js.map

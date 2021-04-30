@@ -1,5 +1,5 @@
 {
-  "name": "onekey-connector",
+  "name": "ethereum2-connector",
   "publishConfig": {
     "access": "public"
   },
@@ -15,16 +15,15 @@
     "web3",
     "context",
     "frontend",
-    "dapp",
-    "onekey"
+    "dapp"
   ],
   "author": "Alexey Lushnikov",
   "repository": {
     "type": "git",
-    "url": "git://github.com/allush/onekey-connector.git"
+    "url": "git://github.com/allush/ethereum2-connector.git"
   },
   "main": "dist/index.js",
-  "module": "dist/onekey-connector.esm.js",
+  "module": "dist/ethereum2-connector.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"

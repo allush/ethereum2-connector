@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9223fc3f-f1e3-4dee-b05c-2564460ee2ad" name="Default Changelist" comment="" />
+    <list default="true" id="9223fc3f-f1e3-4dee-b05c-2564460ee2ad" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/declarations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/onekey-connector.cjs.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/onekey-connector.cjs.development.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/onekey-connector.cjs.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/onekey-connector.cjs.production.min.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/onekey-connector.esm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/onekey-connector.esm.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/types.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +45,7 @@
       <option name="presentableId" value="Default" />
       <updated>1619772516591</updated>
       <workItem from="1619772517925" duration="135000" />
+      <workItem from="1619772744871" duration="1306000" />
     </task>
     <servers />
   </component>
