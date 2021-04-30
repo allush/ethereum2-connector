@@ -24,7 +24,7 @@ export class UserRejectedRequestError extends Error {
   }
 }
 
-export class ethereum2Connector extends AbstractConnector {
+export class Ethereum2Connector extends AbstractConnector {
   constructor(kwargs: AbstractConnectorArguments) {
     super(kwargs)
 
