@@ -1,1 +1,1 @@
-# OneKey Connector
+# Ethereum2 Connector
